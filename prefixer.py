@@ -55,6 +55,8 @@ def to_postfix(node):
     return f"{left_postfix} {right_postfix} {node.val}"
 
 # function to get the result of the expression
+def evaluate(infix_str):
+    print(eval(infix_str))
 
 # function to print the tree
 def print_tree(node, indent="", position="root"):
@@ -75,3 +77,4 @@ if __name__ == '__main__':
     # print_tree(expression_tree)
     print("Infix Notation:", to_infix(expression_tree))
     print("Postfix Notation:", to_postfix(expression_tree))
+    # print(evaluate(to_infix(expression_tree)))
