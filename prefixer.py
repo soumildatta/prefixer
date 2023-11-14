@@ -27,7 +27,7 @@ def to_infix(node):
 
     # return the node if it is an operand/leaf
     if not node.left and not node.right:
-        print(node.val)
+        # print(node.val)
         return str(node.val)
 
     # recursively call for left and right subtrees
@@ -36,7 +36,7 @@ def to_infix(node):
     right_infix = to_infix(node.right)
 
     # in order traversal -- left, parent, right for the subtrees
-    return f"{left_infix} left {node.val} right {right_infix}"
+    return f"{left_infix} {node.val} {right_infix}"
 
 # post order traversal
 def to_postfix(node):
