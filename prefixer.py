@@ -6,19 +6,40 @@ class Node:
         self.right = None
 
 # functin to create a tree from a list of tokens
+# def create_tree(tokens):
+#     if not tokens:
+#         return None
+
+#     token = tokens.pop(0)
+#     # print(token, tokens)
+#     node = Node(token)
+
+#     if token in '+-*/':
+#         node.left = create_tree(tokens)
+#         node.right = create_tree(tokens)
+
+#     return node
+
 def create_tree(tokens):
+    # Empty expression is also not a postfix expression so return false
     if not tokens:
-        return None
+        return None, False
 
     token = tokens.pop(0)
-    # print(token, tokens)
     node = Node(token)
 
     if token in '+-*/':
-        node.left = create_tree(tokens)
-        node.right = create_tree(tokens)
+        node.left, valid_left = create_tree(tokens)
+        node.right, valid_right = create_tree(tokens)
 
-    return node
+        # If subtrees are not valid, then return false
+        if not valid_left or not valid_right:
+            return None, False
+    # else:
+    #     # Return the operand node
+    #     return node, True
+
+    return node, True
 
 # in order traversal 
 def to_infix(node):
@@ -97,7 +118,7 @@ if __name__ == '__main__':
             print("The file is empty or does not contain a valid expression.")
         else:
             # create expression tree
-            expression_tree = create_tree(tokens)
+            expression_tree, is_prefix = create_tree(tokens)
 
             # output the infix and postfix notations
             print("Infix Notation:", to_infix(expression_tree))
