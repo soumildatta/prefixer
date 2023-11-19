@@ -6,40 +6,66 @@ class Node:
         self.right = None
 
 # functin to create a tree from a list of tokens
-# def create_tree(tokens):
-#     if not tokens:
-#         return None
-
-#     token = tokens.pop(0)
-#     # print(token, tokens)
-#     node = Node(token)
-
-#     if token in '+-*/':
-#         node.left = create_tree(tokens)
-#         node.right = create_tree(tokens)
-
-#     return node
-
 def create_tree(tokens):
-    # Empty expression is also not a postfix expression so return false
     if not tokens:
-        return None, False
+        return None
 
     token = tokens.pop(0)
+    # print(token, tokens)
     node = Node(token)
 
     if token in '+-*/':
-        node.left, valid_left = create_tree(tokens)
-        node.right, valid_right = create_tree(tokens)
+        node.left = create_tree(tokens)
+        node.right = create_tree(tokens)
 
-        # If subtrees are not valid, then return false
-        if not valid_left or not valid_right:
-            return None, False
-    # else:
-    #     # Return the operand node
-    #     return node, True
+    return node
 
-    return node, True
+def is_valid(tokens):
+    # Reversing tokens so we can iterate from operands to operators
+    tokens = tokens[::-1]
+    stack = []
+
+    for token in tokens:
+        # Handle operand case
+        if token in '+-*/':
+            # Operator should have at least two operands available
+            if len(stack) < 2:
+                return False
+            
+            # Pop two operands out, calculate using current operator, then put back into stack
+            stack.pop()
+            stack.pop()
+            stack.append('result')
+
+        else:
+            # This case is an operand, simply push to stack
+            stack.append(token)
+
+    # After all operations, the result remains in stack
+    return len(stack) == 1
+
+
+#! INCLUDE IN REPORT: you can use this method, but it was more complicated logic to handle checking the leaf nodes to see if they are all operands while the function is recursing, so made a dedicated function instead
+# def create_tree(tokens):
+#     # Empty expression is also not a postfix expression so return false
+#     if not tokens:
+#         return None, False
+
+#     token = tokens.pop(0)
+#     node = Node(token)
+
+#     if token in '+-*/':
+#         node.left, valid_left = create_tree(tokens)
+#         node.right, valid_right = create_tree(tokens)
+
+#         # If subtrees are not valid, then return false
+#         if not valid_left or not valid_right:
+#             return None, False
+#     # else:
+#     #     # Return the operand node
+#     #     return node, True
+
+#     return node, True
 
 # in order traversal 
 def to_infix(node):
@@ -118,14 +144,17 @@ if __name__ == '__main__':
             print("The file is empty or does not contain a valid expression.")
         else:
             # create expression tree
-            expression_tree, is_prefix = create_tree(tokens)
+            expression_tree = create_tree(tokens)
 
-            # output the infix and postfix notations
-            print("Infix Notation:", to_infix(expression_tree))
+            if is_valid(expression):
+                # output the infix and postfix notations
+                print("Infix Notation:", to_infix(expression_tree))
 
-            postfix_expr, result = to_postfix(expression_tree)
-            print("Postfix Notation:", postfix_expr)
-            print("Evaluation Result:", result)
+                postfix_expr, result = to_postfix(expression_tree)
+                print("Postfix Notation:", postfix_expr)
+                print("Evaluation Result:", result)
+            else:
+                print("The file does not contain a valid prefix expression.")
 
     except FileNotFoundError:
         print(f"File '{filename}' not found.")
