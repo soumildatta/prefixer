@@ -146,15 +146,11 @@ if __name__ == '__main__':
             # create expression tree
             expression_tree = create_tree(tokens)
 
-            if is_valid(expression):
-                # output the infix and postfix notations
-                print("Infix Notation:", to_infix(expression_tree))
+            print("Infix Notation:", to_infix(expression_tree))
 
-                postfix_expr, result = to_postfix(expression_tree)
-                print("Postfix Notation:", postfix_expr)
-                print("Evaluation Result:", result)
-            else:
-                print("The file does not contain a valid prefix expression.")
+            postfix_expr, result = to_postfix(expression_tree)
+            print("Postfix Notation:", postfix_expr)
+            print("Evaluation Result:", result)
 
     except FileNotFoundError:
         print(f"File '{filename}' not found.")
