@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prefixer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Prefixer</h1>
+        <p>Enter a prefix expression and press 'Evaluate' to see the result. <br> Make sure to leave whitespaces between each operand / operator. <br> Ex: + 1 2 </p>
+        <form id="expressionForm">
+            <input type="text" id="prefixInput" placeholder="Enter Prefix Expression">
+            <button type="submit">Evaluate</button>
+        </form>
+
+        <div id="infixResult" class="result"></div>
+        <div id="postfixResult" class="result"></div>
+        <div id="evaluationResult" class="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
